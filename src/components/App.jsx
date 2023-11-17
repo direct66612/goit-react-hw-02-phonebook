@@ -1,12 +1,67 @@
 import { Component } from 'react';
+import { nanoid } from 'nanoid';
+import Input from './Input/Input';
+import Title from './Title/Title';
+import { Filter } from './Filter/Filter';
+import List from './List/List';
 class App extends Component {
   state = {
-    good: 0,
-    neutral: 0,
-    bad: 0,
+    contacts: [
+      { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
+      { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
+      { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
+      { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
+    ],
+    filter: '',
+  };
+  handleSubmit = data => {
+    const { name, number } = data;
+
+    if (
+      this.state.contacts.some(
+        contact => contact.name.toLowerCase() === name.toLowerCase()
+      )
+    ) {
+      alert(`${name} is already in contactcs!`);
+      return;
+    } else {
+      const newContact = {
+        id: nanoid(),
+        name: name,
+        number: number,
+      };
+
+      this.setState(prevState => ({
+        contacts: [...prevState.contacts, newContact],
+      }));
+    }
+  };
+  handleFilter = e => {
+    this.setState({ filter: e.currentTarget.value });
+  };
+  getContacts = () => {
+    return this.state.contacts.filter(contact =>
+      contact.name.toLowerCase().includes(this.state.filter.toLowerCase())
+    );
+  };
+  deleteContact = id => {
+    this.setState(prevState => ({
+      contacts: prevState.contacts.filter(contact => contact.id !== id),
+    }));
   };
   render() {
-    return <></>;
+    return (
+      <>
+        <Title title="Phonebook"></Title>
+        <Input handleSubmit={this.handleSubmit} />
+        <Title title="Contacts"></Title>
+        <Filter value={this.state.filter} handleFilter={this.handleFilter} />
+        <List
+          getContacts={this.getContacts()}
+          deleteContact={this.deleteContact}
+        ></List>
+      </>
+    );
   }
 }
 export default App;
