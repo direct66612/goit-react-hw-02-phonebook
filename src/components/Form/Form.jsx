@@ -1,6 +1,6 @@
 import { Component } from 'react';
-import Container from './Input.styled';
-class Input extends Component {
+import Container from './Form.styled';
+class Form extends Component {
   state = {
     name: '',
     number: '',
@@ -45,4 +45,4 @@ class Input extends Component {
     );
   }
 }
-export default Input;
+export default Form;

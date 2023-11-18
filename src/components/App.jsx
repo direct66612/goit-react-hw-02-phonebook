@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import { nanoid } from 'nanoid';
-import Input from './Input/Input';
+import Form from './Form/Form';
 import Title from './Title/Title';
 import { Filter } from './Filter/Filter';
 import List from './List/List';
@@ -24,17 +24,16 @@ class App extends Component {
     ) {
       alert(`${name} is already in contactcs!`);
       return;
-    } else {
-      const newContact = {
-        id: nanoid(),
-        name: name,
-        number: number,
-      };
-
-      this.setState(prevState => ({
-        contacts: [...prevState.contacts, newContact],
-      }));
     }
+    const newContact = {
+      id: nanoid(),
+      name: name,
+      number: number,
+    };
+
+    this.setState(prevState => ({
+      contacts: [...prevState.contacts, newContact],
+    }));
   };
   handleFilter = e => {
     this.setState({ filter: e.currentTarget.value });
@@ -53,7 +52,7 @@ class App extends Component {
     return (
       <>
         <Title title="Phonebook"></Title>
-        <Input handleSubmit={this.handleSubmit} />
+        <Form handleSubmit={this.handleSubmit} />
         <Title title="Contacts"></Title>
         <Filter value={this.state.filter} handleFilter={this.handleFilter} />
         <List
